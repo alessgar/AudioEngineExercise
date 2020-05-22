@@ -14,7 +14,7 @@ int main()
 {
 	std::string binPath = boost::filesystem::initial_path().string();
 	std::string basePath = binPath.substr(0,binPath.rfind("bin"));
-
+	//test
 	std::cout << "Creating and Initializing Audio Engine..." << std::endl;
 	OPI_AUDIO* AudioEngine = new OPI_AUDIO();
 
