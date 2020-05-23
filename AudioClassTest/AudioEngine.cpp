@@ -189,6 +189,15 @@ void OPI_AUDIO::DSPWetDryMix(int DSPID, float preWet, float postWet, float dry) 
 	FMODErrorCheck(foundDSPs->second->setWetDryMix(preWet, postWet, dry));
 }
 
+void OPI_AUDIO::SetChannelFrequency(int channelID, float frequency) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setFrequency(frequency));
+}
+
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {
 	if (result != FMOD_OK) {
 		std::cout << "FMod encountered an error: " + result << std::endl;

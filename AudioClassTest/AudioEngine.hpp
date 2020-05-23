@@ -34,5 +34,6 @@ class OPI_AUDIO {
 		int CreatePresetDSP(FMOD_DSP_TYPE DSPType);
 		void ApplyChannelDSP(int channelID, int DSPID);
 		void DSPWetDryMix(int DSPID, float preWet, float postWet, float dry);
+		void SetChannelFrequency(int ChannelID, float frequency);
 		void Destroy();
 };
