@@ -129,6 +129,15 @@ void OPI_AUDIO::SetChannelVolume(int channelID, float channelVolume) {
 	FMODErrorCheck(foundChannels->second->setVolume(channelVolume));
 }
 
+void OPI_AUDIO::SetChannelPitch(int channelID, float channelPitch) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setPitch(channelPitch));
+}
+
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {
 	if (result != FMOD_OK) {
 		std::cout << "FMod encountered an error: " + result << std::endl;

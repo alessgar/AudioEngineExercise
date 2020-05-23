@@ -27,5 +27,6 @@ class OPI_AUDIO {
 		void PlayChannel(int channelID);
 		void PauseChannel(int channelID);
 		void SetChannelVolume(int channelID, float channelVolume);
+		void SetChannelPitch(int channelID, float channelPitch);
 		void Destroy();
 };
