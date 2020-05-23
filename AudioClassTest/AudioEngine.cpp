@@ -55,6 +55,21 @@ int OPI_AUDIO::findFirstAvailableChannelID() {
 	return foundID;
 }
 
+int OPI_AUDIO::findFirstAvailableDSPID() {
+	bool found = false;
+	int foundID = 0;
+	while (!found) {
+		auto foundDSP = aDSPs.find(foundID);
+		if (foundDSP == aDSPs.end()) {
+			found = true;
+		}
+		else {
+			foundID++;
+		}
+	}
+	return foundID;
+}
+
 int OPI_AUDIO::StartSound(std::string SNDPath) {
 	int channelID = findFirstAvailableChannelID();
 
@@ -136,6 +151,42 @@ void OPI_AUDIO::SetChannelPitch(int channelID, float channelPitch) {
 	}
 
 	FMODErrorCheck(foundChannels->second->setPitch(channelPitch));
+}
+
+int OPI_AUDIO::CreatePresetDSP(FMOD_DSP_TYPE DSPType) {
+	int DSPID = findFirstAvailableDSPID();
+
+	FMOD::DSP* dsp = NULL;
+	FMODErrorCheck(audioSystem->createDSPByType(DSPType, &dsp)); //possible popping noise if sound is modified while playing, resume it manually after modifying channel
+	if (dsp) { // won't be null if it works
+		aDSPs[DSPID] = dsp;
+		return DSPID;
+	}
+
+	return -1;
+}
+
+void OPI_AUDIO::ApplyChannelDSP(int channelID, int DSPID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	auto foundDSPs = aDSPs.find(DSPID);
+	if (foundDSPs == aDSPs.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->addDSP(0, foundDSPs->second));
+}
+
+void OPI_AUDIO::DSPWetDryMix(int DSPID, float preWet, float postWet, float dry) {
+	auto foundDSPs = aDSPs.find(DSPID);
+	if (foundDSPs == aDSPs.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundDSPs->second->setWetDryMix(preWet, postWet, dry));
 }
 
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {
