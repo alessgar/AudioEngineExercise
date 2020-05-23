@@ -24,5 +24,8 @@ class OPI_AUDIO {
 		int StartSound(std::string SNDPath);
 		void DestroyChannel(int channelID);
 		void WaitForChannel(int channelID);
+		void PlayChannel(int channelID);
+		void PauseChannel(int channelID);
+		void SetChannelVolume(int channelID, float channelVolume);
 		void Destroy();
 };

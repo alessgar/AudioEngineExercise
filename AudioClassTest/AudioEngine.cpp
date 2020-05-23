@@ -69,7 +69,7 @@ int OPI_AUDIO::StartSound(std::string SNDPath) {
 	}
 
 	FMOD::Channel* channel = NULL;
-	FMODErrorCheck(audioSystem->playSound(aSounds[SNDPath], NULL, true, &channel)); //popping noise if sound is modified while playing, resume it manually after modifying channel
+	FMODErrorCheck(audioSystem->playSound(aSounds[SNDPath], NULL, true, &channel)); //possible popping noise if sound is modified while playing, resume it manually after modifying channel
 	if (channel) { // won't be null if it works
 		aChannels[channelID] = channel;
 		FMODErrorCheck(channel->setPaused(false));
@@ -100,6 +100,33 @@ void OPI_AUDIO::WaitForChannel(int channelID) {
 		FMODErrorCheck(foundChannels->second->isPlaying(&isPlaying));
 		crossSleep(1);
 	}
+}
+
+void OPI_AUDIO::PlayChannel(int channelID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setPaused(false));
+}
+
+void OPI_AUDIO::PauseChannel(int channelID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setPaused(true));
+}
+
+void OPI_AUDIO::SetChannelVolume(int channelID, float channelVolume) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setVolume(channelVolume));
 }
 
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {
