@@ -135,6 +135,24 @@ void OPI_AUDIO::PauseChannel(int channelID) {
 	FMODErrorCheck(foundChannels->second->setPaused(true));
 }
 
+void OPI_AUDIO::MuteChannel(int channelID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setMute(true));
+}
+
+void OPI_AUDIO::UnMuteChannel(int channelID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setMute(true));
+}
+
 void OPI_AUDIO::SetChannelVolume(int channelID, float channelVolume) {
 	auto foundChannels = aChannels.find(channelID);
 	if (foundChannels == aChannels.end()) {
@@ -196,6 +214,15 @@ void OPI_AUDIO::SetChannelFrequency(int channelID, float frequency) {
 	}
 
 	FMODErrorCheck(foundChannels->second->setFrequency(frequency));
+}
+
+void OPI_AUDIO::SetChannelMode(int channelID, FMOD_MODE channelMode) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return;
+	}
+
+	FMODErrorCheck(foundChannels->second->setMode(channelMode));
 }
 
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {

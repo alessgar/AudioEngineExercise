@@ -29,11 +29,14 @@ class OPI_AUDIO {
 		void WaitForChannel(int channelID);
 		void PlayChannel(int channelID);
 		void PauseChannel(int channelID);
+		void MuteChannel(int channelID);
+		void UnMuteChannel(int channelID);
 		void SetChannelVolume(int channelID, float channelVolume);
 		void SetChannelPitch(int channelID, float channelPitch);
 		int CreatePresetDSP(FMOD_DSP_TYPE DSPType);
 		void ApplyChannelDSP(int channelID, int DSPID);
 		void DSPWetDryMix(int DSPID, float preWet, float postWet, float dry);
 		void SetChannelFrequency(int ChannelID, float frequency);
+		void SetChannelMode(int ChannelID, FMOD_MODE channelMode);
 		void Destroy();
 };
