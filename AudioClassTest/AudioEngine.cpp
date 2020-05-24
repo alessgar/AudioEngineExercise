@@ -112,7 +112,7 @@ void OPI_AUDIO::WaitForChannel(int channelID) {
 
 	bool isPlaying = true;
 	while (isPlaying) {
-		FMODErrorCheck(foundChannels->second->isPlaying(&isPlaying));
+		isPlaying = getPlayingState(channelID);
 		crossSleep(1);
 	}
 }
@@ -223,6 +223,18 @@ void OPI_AUDIO::SetChannelMode(int channelID, FMOD_MODE channelMode) {
 	}
 
 	FMODErrorCheck(foundChannels->second->setMode(channelMode));
+}
+
+bool OPI_AUDIO::getPlayingState(int channelID) {
+	auto foundChannels = aChannels.find(channelID);
+	if (foundChannels == aChannels.end()) {
+		return false;
+	}
+
+	bool isPlaying = false;
+	FMODErrorCheck(foundChannels->second->isPlaying(&isPlaying));
+	
+	return isPlaying;
 }
 
 int OPI_AUDIO::FMODErrorCheck(FMOD_RESULT result) {

@@ -38,5 +38,6 @@ class OPI_AUDIO {
 		void DSPWetDryMix(int DSPID, float preWet, float postWet, float dry);
 		void SetChannelFrequency(int ChannelID, float frequency);
 		void SetChannelMode(int ChannelID, FMOD_MODE channelMode);
+		bool getPlayingState(int channelID);
 		void Destroy();
 };
