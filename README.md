@@ -1,4 +1,4 @@
-# OpiAudioEngine
+# AudioEngineExercise
 A barebones audio engine designed as a review of OOP and using external libraries.
 
 Libraries Used:  
